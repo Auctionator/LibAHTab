@@ -6,12 +6,15 @@ local MIN_TAB_WIDTH = 70
 local TAB_PADDING = 20
 
 function lib:DoesIDExist(tabID)
-  return not lib.internalState or lib.internalState[usedIDs] ~= nil
+  return lib.internalState and lib.internalState.usedIDs[tabID] ~= nil
 end
 
 function lib:CreateTab(tabID, buttonFrameName, attachedFrame, displayText)
   if not AuctionHouseFrame then
     error("Wait for the AH to open before creating your tab")
+  end
+  if type(tabID) ~= "string" then
+    error("tabID should be a string")
   end
 
   if not lib.internalState then
@@ -23,6 +26,15 @@ function lib:CreateTab(tabID, buttonFrameName, attachedFrame, displayText)
     lib.rootFrame = CreateFrame("Frame", nil, AuctionHouseFrame)
     lib.rootFrame:SetSize(10, 10)
     lib.rootFrame:SetPoint("TOPLEFT", AuctionHouseFrame.Tabs[#AuctionHouseFrame.Tabs], "TOPRIGHT")
+
+    hooksecurefunc(AuctionHouseFrame, "SetDisplayMode", function(self, mode)
+      if mode ~= nil and #mode > 0 then
+        for _, tab in ipairs(lib.internalState.Tabs) do
+          tab.frameRef:Hide()
+          PanelTemplates_DeselectTab(tab)
+        end
+      end
+    end)
   end
 
   if lib:DoesIDExist(tabID) then
@@ -51,6 +63,33 @@ function lib:CreateTab(tabID, buttonFrameName, attachedFrame, displayText)
   attachedFrame:Hide()
 
   newTab:SetScript("OnClick", function()
-    print("click \"" ..  displayText .. "\"")
+    lib:SetSelected(tabID)
   end)
+end
+
+function lib:GetButton(tabID)
+  return lib.internalState.usedIDs[tabID]
+end
+
+function lib:SetSelected(tabID)
+  if lib.internalState == nil or not lib:DoesIDExist(tabID) then
+    error("Tab doesn't exist")
+  end
+
+  AuctionHouseFrame:SetDisplayMode({})
+  AuctionHouseFrame.displayMode = nil
+
+  for _, tab in ipairs(lib.internalState.Tabs) do
+    tab.frameRef:Hide()
+    PanelTemplates_DeselectTab(tab)
+  end
+
+  for _, tab in ipairs(AuctionHouseFrame.Tabs) do
+    PanelTemplates_DeselectTab(tab)
+  end
+
+  local selectedTab = lib:GetButton(tabID)
+  PanelTemplates_SelectTab(selectedTab)
+
+  selectedTab.frameRef:Show()
 end
