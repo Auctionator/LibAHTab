@@ -41,7 +41,7 @@ function lib:CreateTab(tabID, attachedFrame, displayText)
     error("The tab id already exists")
   end
 
-  local newTab = CreateFrame("Button", buttonFrameName, lib.internalState.rootFrame, "AuctionHouseFrameDisplayModeTabTemplate")
+  local newTab = CreateFrame("Button", nil, lib.internalState.rootFrame, "AuctionHouseFrameDisplayModeTabTemplate")
   table.insert(lib.internalState.Tabs, newTab)
 
   newTab:SetText(displayText)
@@ -67,7 +67,7 @@ function lib:CreateTab(tabID, attachedFrame, displayText)
   end)
 end
 
-function lib:GetTabButton(tabID)
+function lib:GetButton(tabID)
   return lib.internalState.usedIDs[tabID]
 end
 
@@ -88,7 +88,7 @@ function lib:SetSelected(tabID)
     PanelTemplates_DeselectTab(tab)
   end
 
-  local selectedTab = lib:GetTabButton(tabID)
+  local selectedTab = lib:GetButton(tabID)
   PanelTemplates_SelectTab(selectedTab)
 
   selectedTab.frameRef:Show()
