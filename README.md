@@ -15,13 +15,11 @@ frame:SetScript("OnEvent", function(_, eventName, panelType)
     attachedFrame:SetScript("OnShow", function()
       -- do something when the tab is selected
     end)
-    LibAHTab:CreateTab(UNIQUE_TAB_ID, buttonFrameName, attachedFrame, "Tab text")
+    LibAHTab:CreateTab(UNIQUE_TAB_ID, "LibAHTabButton_Mine", attachedFrame, "Tab text")
   end
-end
+end)
 
 -- Other API
 LibAHTab:DoesIDExist(UNIQUE_TAB_ID)
 LibAHTab:SetSelected(UNIQUE_TAB_ID)
-LibAHTab:GetButton(UNIQUE_TAB_ID)
-LibAHTab:ChangeText(UNIQUE_TAB_ID, "New display text")
 ```
