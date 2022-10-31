@@ -9,7 +9,7 @@ function lib:DoesIDExist(tabID)
   return lib.internalState and lib.internalState.usedIDs[tabID] ~= nil
 end
 
-function lib:CreateTab(tabID, buttonFrameName, attachedFrame, displayText)
+function lib:CreateTab(tabID, attachedFrame, displayText)
   if not AuctionHouseFrame then
     error("Wait for the AH to open before creating your tab")
   end
