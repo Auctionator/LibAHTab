@@ -67,7 +67,7 @@ function lib:CreateTab(tabID, attachedFrame, displayText)
   end)
 end
 
-function lib:GetButton(tabID)
+function lib:GetTabButton(tabID)
   return lib.internalState.usedIDs[tabID]
 end
 
@@ -88,7 +88,7 @@ function lib:SetSelected(tabID)
     PanelTemplates_DeselectTab(tab)
   end
 
-  local selectedTab = lib:GetButton(tabID)
+  local selectedTab = lib:GetTabButton(tabID)
   PanelTemplates_SelectTab(selectedTab)
 
   selectedTab.frameRef:Show()
