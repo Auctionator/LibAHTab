@@ -1,6 +1,13 @@
 # LibAHTab
 
-Workaround for Auction House Tabs causing taint. This applies to WoW retail, after version 10.0.0.
+This library applies to 10.0.0 (Dragonflight pre-patch) and newer versions of
+World of Warcraft.  Leaving the library unused, but loaded, won't error in older
+versions of WoW.
+
+Adding an addon tab to the Auction House via the standard `PanelTemplates_`
+functions causes taint, which affects the player's bags, and persists even in
+combat after having left the AH. For one way to trigger the blocked error see
+https://github.com/Auctionator/LibAHTab/wiki/The-Issue
 
 ```lua
 local LibAHTab = LibStub("LibAHTab-1-0")
