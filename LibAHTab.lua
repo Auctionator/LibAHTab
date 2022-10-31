@@ -23,9 +23,9 @@ function lib:CreateTab(tabID, buttonFrameName, attachedFrame, displayText)
       usedIDs = {},
       selectedTab = nil,
     }
-    lib.rootFrame = CreateFrame("Frame", nil, AuctionHouseFrame)
-    lib.rootFrame:SetSize(10, 10)
-    lib.rootFrame:SetPoint("TOPLEFT", AuctionHouseFrame.Tabs[#AuctionHouseFrame.Tabs], "TOPRIGHT")
+    lib.internalState.rootFrame = CreateFrame("Frame", nil, AuctionHouseFrame)
+    lib.internalState.rootFrame:SetSize(10, 10)
+    lib.internalState.rootFrame:SetPoint("TOPLEFT", AuctionHouseFrame.Tabs[#AuctionHouseFrame.Tabs], "TOPRIGHT")
 
     hooksecurefunc(AuctionHouseFrame, "SetDisplayMode", function(self, mode)
       if mode ~= nil and #mode > 0 then
@@ -41,7 +41,7 @@ function lib:CreateTab(tabID, buttonFrameName, attachedFrame, displayText)
     error("The tab id already exists")
   end
 
-  local newTab = CreateFrame("Button", buttonFrameName, lib.rootFrame, "AuctionHouseFrameDisplayModeTabTemplate")
+  local newTab = CreateFrame("Button", buttonFrameName, lib.internalState.rootFrame, "AuctionHouseFrameDisplayModeTabTemplate")
   table.insert(lib.internalState.Tabs, newTab)
 
   newTab:SetText(displayText)
@@ -53,7 +53,7 @@ function lib:CreateTab(tabID, buttonFrameName, attachedFrame, displayText)
   if #lib.internalState.Tabs > 1 then
     newTab:SetPoint("TOPLEFT", lib.internalState.Tabs[#lib.internalState.Tabs - 1], "TOPRIGHT")
   else
-    newTab:SetPoint("TOPLEFT", lib.rootFrame, "TOPLEFT")
+    newTab:SetPoint("TOPLEFT", lib.internalState.rootFrame, "TOPLEFT")
   end
 
   PanelTemplates_DeselectTab(newTab)
